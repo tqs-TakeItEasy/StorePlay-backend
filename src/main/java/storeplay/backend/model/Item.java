@@ -27,12 +27,12 @@ public class Item {
     @Basic(fetch = FetchType.LAZY)
     private byte[] profilePicture;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "store_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Store store;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "package_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Package package_item;

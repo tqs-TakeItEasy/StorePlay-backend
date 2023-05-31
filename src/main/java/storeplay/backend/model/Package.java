@@ -14,12 +14,12 @@ public class Package {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "pickup_point_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private PickupPoint pickupPoint;
@@ -27,7 +27,7 @@ public class Package {
     @Column(name = "status")
     private PickupPointStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "store_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Store store;

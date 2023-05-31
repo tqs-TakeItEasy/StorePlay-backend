@@ -23,7 +23,7 @@ public class PickupPoint {
     @Column(name = "status")
     private PickupPointStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "store_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Store store;

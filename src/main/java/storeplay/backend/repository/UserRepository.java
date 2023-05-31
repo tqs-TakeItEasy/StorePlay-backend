@@ -6,4 +6,5 @@ import storeplay.backend.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
+
 }
