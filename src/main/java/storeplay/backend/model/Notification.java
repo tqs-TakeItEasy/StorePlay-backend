@@ -1,6 +1,5 @@
 package storeplay.backend.model;
 
-
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -16,8 +15,8 @@ public class Notification {
     @Column(name = "store_email")
     private String store_email;
 
-    @Column(name = "user_email")
-    private String user_email;
+    @Column(name = "client_email")
+    private String client_email;
 
     @Column(name = "message")
     private String message;
@@ -38,12 +37,12 @@ public class Notification {
         this.store_email = store_email;
     }
 
-    public String getUser_email() {
-        return user_email;
+    public String getClient_email_email() {
+        return client_email;
     }
 
-    public void setUser_email(String user_email) {
-        this.user_email = user_email;
+    public void setClient_email(String client_email) {
+        this.client_email = client_email;
     }
 
     public String getMessage() {
@@ -59,11 +58,11 @@ public class Notification {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Notification that = (Notification) o;
-        return id.equals(that.id) && store_email.equals(that.store_email) && user_email.equals(that.user_email) && message.equals(that.message);
+        return id.equals(that.id) && store_email.equals(that.store_email) && client_email.equals(that.client_email) && message.equals(that.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, store_email, user_email, message);
+        return Objects.hash(id, store_email, client_email, message);
     }
 }

@@ -18,7 +18,7 @@ public class PickupPoint {
     private String name;
 
     @Column(name = "adress")
-    private String adress;
+    private String address;
 
     @Column(name = "status")
     private PickupPointStatus status;
@@ -44,12 +44,12 @@ public class PickupPoint {
         this.name = name;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public PickupPointStatus getStatus() {
@@ -73,11 +73,11 @@ public class PickupPoint {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PickupPoint that = (PickupPoint) o;
-        return id.equals(that.id) && name.equals(that.name) && adress.equals(that.adress) && status == that.status && store.equals(that.store);
+        return id.equals(that.id) && name.equals(that.name) && address.equals(that.address) && status == that.status && store.equals(that.store);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, adress, status, store);
+        return Objects.hash(id, name, address, status, store);
     }
 }

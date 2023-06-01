@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,9 +16,9 @@ public class Package {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "client_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User user;
+    private Client client;
 
     @ManyToOne
     @JoinColumn(name = "pickup_point_id")
@@ -25,18 +26,50 @@ public class Package {
     private PickupPoint pickupPoint;
 
     @Column(name = "status")
-    private PickupPointStatus status;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "store_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Store store;
 
+    @OneToMany(mappedBy = "package_item", cascade = CascadeType.ALL)
+    private List<Item> items;
+
+    @Column(name = "delivery_id")
+    private String delivery_id;
     @Column(name = "purchase_date")
     private String purchaseDate;
 
     @Column(name = "delivery_date")
     private String deliveryDate;
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public String getDelivery_id() {
+        return delivery_id;
+    }
+
+    public void setDelivery_id(String delivery_id) {
+        this.delivery_id = delivery_id;
+    }
+
+    @Column(name = "pickup_date")
+    private String pickupDate;
+
+    public Package(List<Item> items) {
+        this.items = items;
+    }
+
+    public Package() {
+
+    }
 
     public Long getId() {
         return id;
@@ -46,12 +79,12 @@ public class Package {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Client getClient() {
+        return client;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public PickupPoint getPickupPoint() {
@@ -62,11 +95,11 @@ public class Package {
         this.pickupPoint = pickupPoint;
     }
 
-    public PickupPointStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(PickupPointStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -94,17 +127,25 @@ public class Package {
         this.deliveryDate = deliveryDate;
     }
 
+    public String getPickupDate() {
+        return pickupDate;
+    }
+
+    public void setPickupDate(String pickupDate) {
+        this.pickupDate = pickupDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Package aPackage = (Package) o;
-        return id.equals(aPackage.id) && user.equals(aPackage.user) && pickupPoint.equals(aPackage.pickupPoint) && status == aPackage.status && store.equals(aPackage.store) && purchaseDate.equals(aPackage.purchaseDate) && deliveryDate.equals(aPackage.deliveryDate);
+        return id.equals(aPackage.id) && client.equals(aPackage.client) && pickupPoint.equals(aPackage.pickupPoint) && status == aPackage.status && store.equals(aPackage.store) && items.equals(aPackage.items) && delivery_id.equals(aPackage.delivery_id) && purchaseDate.equals(aPackage.purchaseDate) && deliveryDate.equals(aPackage.deliveryDate) && pickupDate.equals(aPackage.pickupDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, pickupPoint, status, store, purchaseDate, deliveryDate);
+        return Objects.hash(id, client, pickupPoint, status, store, items, delivery_id, purchaseDate, deliveryDate, pickupDate);
     }
 }
 

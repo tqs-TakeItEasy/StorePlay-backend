@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "client")
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,8 +69,8 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id.equals(user.id) && name.equals(user.name) && email.equals(user.email) && psw.equals(user.psw) && birthdate.equals(user.birthdate);
+        Client client = (Client) o;
+        return id.equals(client.id) && name.equals(client.name) && email.equals(client.email) && psw.equals(client.psw) && birthdate.equals(client.birthdate);
     }
 
     @Override
