@@ -15,10 +15,19 @@ public class Package {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Client client;
+    //@ManyToOne
+    //@JoinColumn(name = "client_id")
+    //@OnDelete(action = OnDeleteAction.CASCADE)
+    //private Client client;
+
+
+    // Retirar se Client for usado
+    @Column(name = "client_name")
+    private String client_name;
+
+    // Retirar se Client for usado
+    @Column(name = "client_email")
+    private String client_email;
 
     @ManyToOne
     @JoinColumn(name = "pickup_point_id")
@@ -33,42 +42,49 @@ public class Package {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Store store;
 
-    @OneToMany(mappedBy = "package_item", cascade = CascadeType.ALL)
-    private List<Item> items;
-
     @Column(name = "delivery_id")
-    private String delivery_id;
-    @Column(name = "purchase_date")
-    private String purchaseDate;
+    private Long delivery_id;
 
-    @Column(name = "delivery_date")
-    private String deliveryDate;
+    @Column(name = "itemsList")
+    @ElementCollection
+    private List<Long> items;
 
-    public List<Item> getItems() {
+    public List<Long> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<Long> items) {
         this.items = items;
     }
 
-    public String getDelivery_id() {
+    public Long getDelivery_id() {
         return delivery_id;
     }
 
-    public void setDelivery_id(String delivery_id) {
+    public void setDelivery_id(Long delivery_id) {
         this.delivery_id = delivery_id;
     }
 
-    @Column(name = "pickup_date")
-    private String pickupDate;
-
-    public Package(List<Item> items) {
-        this.items = items;
-    }
+    //public Package(Client client, PickupPoint pickupPoint, String status, Store store, List<Long> items) {
+    //    this.client = client;
+    //    this.pickupPoint = pickupPoint;
+    //    this.status = status;
+    //    this.store = store;
+    //    this.items = items;
+    //}
 
     public Package() {
 
+    }
+
+    // Retirar se Client for usado
+    public Package(String client_name, String client_email, PickupPoint pickupPoint, String status, Store store, List<Long> items) {
+        this.client_name = client_name;
+        this.client_email = client_email;
+        this.pickupPoint = pickupPoint;
+        this.status = status;
+        this.store = store;
+        this.items = items;
     }
 
     public Long getId() {
@@ -79,12 +95,20 @@ public class Package {
         this.id = id;
     }
 
-    public Client getClient() {
-        return client;
+    public String getClient_name() {
+        return client_name;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClient_name(String client_name) {
+        this.client_name = client_name;
+    }
+
+    public String getClient_email() {
+        return client_email;
+    }
+
+    public void setClient_email(String client_email) {
+        this.client_email = client_email;
     }
 
     public PickupPoint getPickupPoint() {
@@ -109,43 +133,6 @@ public class Package {
 
     public void setStore(Store store) {
         this.store = store;
-    }
-
-    public String getPurchaseDate() {
-        return purchaseDate;
-    }
-
-    public void setPurchaseDate(String purchaseDate) {
-        this.purchaseDate = purchaseDate;
-    }
-
-    public String getDeliveryDate() {
-        return deliveryDate;
-    }
-
-    public void setDeliveryDate(String deliveryDate) {
-        this.deliveryDate = deliveryDate;
-    }
-
-    public String getPickupDate() {
-        return pickupDate;
-    }
-
-    public void setPickupDate(String pickupDate) {
-        this.pickupDate = pickupDate;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Package aPackage = (Package) o;
-        return id.equals(aPackage.id) && client.equals(aPackage.client) && pickupPoint.equals(aPackage.pickupPoint) && status == aPackage.status && store.equals(aPackage.store) && items.equals(aPackage.items) && delivery_id.equals(aPackage.delivery_id) && purchaseDate.equals(aPackage.purchaseDate) && deliveryDate.equals(aPackage.deliveryDate) && pickupDate.equals(aPackage.pickupDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, client, pickupPoint, status, store, items, delivery_id, purchaseDate, deliveryDate, pickupDate);
     }
 }
 

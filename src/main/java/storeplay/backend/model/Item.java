@@ -4,8 +4,8 @@ package storeplay.backend.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.mapping.Map;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 
@@ -31,16 +31,11 @@ public class Item {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Store store;
 
-    @ManyToOne
-    @JoinColumn(name = "package_id")
-    private Package package_item;
-
-    public Item(Long id, String name, String price, String profilePicture, Package package_item) {
+    public Item(Long id, String name, String price, String profilePicture) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.profilePicture = profilePicture;
-        this.package_item = package_item;
     }
 
     public Item() {
@@ -67,10 +62,6 @@ public class Item {
         return store;
     }
 
-    public Package getPackage_item() {
-        return package_item;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -91,21 +82,17 @@ public class Item {
         this.store = store;
     }
 
-    public void setPackage_item(Package package_item) {
-        this.package_item = package_item;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Item item = (Item) o;
-        return id.equals(item.id) && name.equals(item.name) && price.equals(item.price) && profilePicture.equals(item.profilePicture) && store.equals(item.store) && package_item.equals(item.package_item);
+        return id.equals(item.id) && name.equals(item.name) && price.equals(item.price) && profilePicture.equals(item.profilePicture) && store.equals(item.store);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, name, price,profilePicture ,store, package_item);
+        int result = Objects.hash(id, name, price,profilePicture ,store);
 
         return result;
     }

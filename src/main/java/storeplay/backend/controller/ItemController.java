@@ -21,7 +21,7 @@ public class ItemController{
     ItemService itemService;
 
     @GetMapping("")
-    public ResponseEntity<List<Item>> getAllStores() {
+    public ResponseEntity<List<Item>> getAllItems() {
         List<Item> allItems = itemService.getAllItems();
         return ResponseEntity.ok().body(allItems);
     }
