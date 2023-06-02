@@ -16,6 +16,15 @@ public class DeliveryDTO {
         this.storeId = storeId;
     }
 
+    // public String toJson(){
+    //     return "{" + 
+    //             "\"userName\":" + getUserName() +
+    //             "\"userEmail\":" + getUserEmail() +
+    //             "\"packageId\":" + get() +
+    //             "\"userName\":" + getUserName() +
+    //             "}";
+    // }
+
     public Long getPackageId() {
         return packageId;
     }

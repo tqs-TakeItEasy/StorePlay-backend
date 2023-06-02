@@ -2,25 +2,32 @@ package storeplay.backend.controller;
 
 import java.io.IOException;
 
-
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import storeplay.backend.client.HTTPClient;
 import storeplay.backend.dto.DeliveryDTO;
 import storeplay.backend.dto.PackageDTO;
 import storeplay.backend.exception.ResourceNotFoundException;
-import storeplay.backend.model.Client;
 import storeplay.backend.model.Package;
-import storeplay.backend.model.PickupPoint;
 import storeplay.backend.model.Store;
-import storeplay.backend.service.*;
+import storeplay.backend.service.ClientService;
+import storeplay.backend.service.PackageService;
+import storeplay.backend.service.StoreService;
 
 
 @RestController
-@CrossOrigin(origins={"http://localhost:3000", "http://127.0.0.1:3000"})
+@CrossOrigin(origins={  "http://localhost:3000", "http://127.0.0.1:3000", "http://0.0.0.0:3000", 
+                        "https://localhost:3000", "https://127.0.0.1:3000", "https://0.0.0.0:3000",
+                        "http://localhost:5173", "http://127.0.0.1:5173", "http://0.0.0.0:5173", 
+                        "https://localhost:5173", "https://127.0.0.1:5173", "https://0.0.0.0:5173"
+                    })
 @RequestMapping("/api/v1/packages/")
 public class PackageController{
 
@@ -34,48 +41,38 @@ public class PackageController{
     StoreService storeService;
 
     @Autowired
-    PickupPointService pickupPointService;
-
-    @Autowired
     private HTTPClient httpClient = new HTTPClient();
 
-    private CloseableHttpClient client = HttpClients.createDefault();
-
     @PostMapping("add/")
-    public ResponseEntity<Package> addPackage(@RequestBody PackageDTO package_info) throws IOException, ResourceNotFoundException {
-        // Chamar Client Service para ter name e email
-        //Client client = clientService.getStoreById(package_info.getClientId());
+    public ResponseEntity<Package> addPackage(@RequestBody PackageDTO packageDTO) throws IOException, ResourceNotFoundException {
 
+        Store store = storeService.getStoreById(packageDTO.getStoreId());
 
-        // Chamar Store Service para ter StoreId
-        Store store = storeService.getStoreById(package_info.getStoreId());
-        // Chamar PickUp Service para ter PickUp Controller
-        PickupPoint pickupPoint = pickupPointService.getPUPById(package_info.getPUPId());
-        //Criar Package
-        Package newPackage = new Package(package_info.getClientName(), package_info.getClientEmail(), pickupPoint, "AVAILABLE", store, package_info.getPackage_itemsIds());
+        Package newPackage = new Package(   packageDTO.getClientName(),
+                                            packageDTO.getClientEmail(),
+                                            packageDTO.getPickupPointId(),
+                                            "AVAILABLE",
+                                            store,
+                                            packageDTO.getPackageItemsIds());
+
         newPackage = packageService.addPackage(newPackage);
 
-        // criar delivery DTO
-        //DeliveryDTO deliveryDTO = new DeliveryDTO(client.getName(), package_info.getEmail(), newPackage.getId() , store.getId(), pickupPoint.getId());
-        DeliveryDTO deliveryDTO = new DeliveryDTO(package_info.getClientName(), package_info.getClientEmail(), newPackage.getId() , store.getId(), pickupPoint.getId());
+        System.out.println(newPackage.getId());
 
-        // Fazer post para criar uma delivery com o delivery dto
-        // vai retornar a deliveryId
-        String packageDTO = httpClient.postDeliveryDTOGetPackageDTO(deliveryDTO);
-        JSONObject packageDTO_json = new JSONObject(packageDTO);
+        DeliveryDTO deliveryDTO = new DeliveryDTO(  packageDTO.getClientName(), 
+                                                    packageDTO.getClientEmail(), 
+                                                    newPackage.getId(), 
+                                                    store.getId(), 
+                                                    packageDTO.getPickupPointId());
 
-        Long deliveryID = packageDTO_json.getLong("deliveryID");
-        newPackage.setDelivery_id(deliveryID);
-        // vai ter uma deliveryID, para saber que o package associa-se à delivery,
-        // Se quiser algo sobre uma delivery uso o delivery id do package
-        newPackage = packageService.updateDeliveryId(newPackage.getId(), deliveryID);
+        String response = httpClient.postDelivery(deliveryDTO);
+        JSONObject packageDTO_JSON = new JSONObject(response);
+
+        Long deliveryID = Long.valueOf(((Integer)packageDTO_JSON.get("deliveryId")).longValue());
+
+        newPackage.setDeliveryId(deliveryID);
+        packageService.updatePackage(newPackage);
 
         return ResponseEntity.ok().body(newPackage);
     }
-
-    //@PutMapping("{packageID}/")
-    //public  ResponseEntity<Package> recieveDeliveryID(@PathVariable(value="packageID") Long packageID, @RequestBody PackageDTO packageDTO){
-    //    Package updatePackage = packageService.updatePackage(packageID, packageDTO);
-    //}
-
 }

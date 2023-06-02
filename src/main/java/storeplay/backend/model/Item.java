@@ -1,13 +1,18 @@
 package storeplay.backend.model;
 
-
-import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.mapping.Map;
-
 import java.util.Objects;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "item")
@@ -31,15 +36,12 @@ public class Item {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Store store;
 
+    public Item() {}
     public Item(Long id, String name, String price, String profilePicture) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.profilePicture = profilePicture;
-    }
-
-    public Item() {
-
     }
 
     public Long getId() {

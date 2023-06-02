@@ -21,36 +21,30 @@ public class Notification {
     @Column(name = "message")
     private String message;
 
+    public String getClient_email() {
+        return client_email;
+    }
     public Long getId() {
         return id;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    public String getMessage() {
+        return message;
     }
-
     public String getStore_email() {
         return store_email;
-    }
-
-    public void setStore_email(String store_email) {
-        this.store_email = store_email;
-    }
-
-    public String getClient_email_email() {
-        return client_email;
     }
 
     public void setClient_email(String client_email) {
         this.client_email = client_email;
     }
-
-    public String getMessage() {
-        return message;
+    public void setId(Long id) {
+        this.id = id;
     }
-
     public void setMessage(String message) {
         this.message = message;
+    }
+    public void setStore_email(String store_email) {
+        this.store_email = store_email;
     }
 
     @Override

@@ -1,13 +1,13 @@
 package storeplay.backend.service;
 
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import storeplay.backend.exception.ResourceNotFoundException;
 import storeplay.backend.model.Package;
 import storeplay.backend.repository.PackageRepository;
-
-import java.util.Optional;
 
 @Service
 public class PackageService {
@@ -19,15 +19,13 @@ public class PackageService {
         return packageRepository.save(package_item);
     }
 
+    public Package updatePackage(Package packageToUpdate) throws ResourceNotFoundException {
+        Optional<Package> existingPackage = packageRepository.findById(packageToUpdate.getId());
 
-    public Package updateDeliveryId(Long id, Long deliveryID) throws ResourceNotFoundException {
-        Optional<Package> package_item = packageRepository.findById(id);
-
-        if (package_item.isPresent()){
-            Package package_i = package_item.get();
-            package_i.setDelivery_id(deliveryID);
-            packageRepository.save(package_i);
-            return package_i;
+        if (existingPackage.isPresent()){
+            packageToUpdate.setId(existingPackage.get().getId());
+            Package updatedPackage = packageRepository.save(packageToUpdate);
+            return updatedPackage;
         } else {
             throw new ResourceNotFoundException("This Package does not exist!");
         }

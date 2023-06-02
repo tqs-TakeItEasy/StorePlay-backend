@@ -1,11 +1,19 @@
 package storeplay.backend.model;
 
-import jakarta.persistence.*;
+import java.util.List;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.List;
-import java.util.Objects;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "package")
@@ -20,19 +28,14 @@ public class Package {
     //@OnDelete(action = OnDeleteAction.CASCADE)
     //private Client client;
 
-
-    // Retirar se Client for usado
     @Column(name = "client_name")
-    private String client_name;
+    private String clientName;
 
-    // Retirar se Client for usado
     @Column(name = "client_email")
-    private String client_email;
+    private String clientEmail;
 
-    @ManyToOne
     @JoinColumn(name = "pickup_point_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private PickupPoint pickupPoint;
+    private Long pickupPointId;
 
     @Column(name = "status")
     private String status;
@@ -42,95 +45,70 @@ public class Package {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Store store;
 
-    @Column(name = "delivery_id")
-    private Long delivery_id;
+    @Column(name = "deliveryid")
+    private Long deliveryId;
 
-    @Column(name = "itemsList")
+    @Column(name = "itemslist")
     @ElementCollection
     private List<Long> items;
 
-    public List<Long> getItems() {
-        return items;
-    }
 
-    public void setItems(List<Long> items) {
-        this.items = items;
-    }
-
-    public Long getDelivery_id() {
-        return delivery_id;
-    }
-
-    public void setDelivery_id(Long delivery_id) {
-        this.delivery_id = delivery_id;
-    }
-
-    //public Package(Client client, PickupPoint pickupPoint, String status, Store store, List<Long> items) {
-    //    this.client = client;
-    //    this.pickupPoint = pickupPoint;
-    //    this.status = status;
-    //    this.store = store;
-    //    this.items = items;
-    //}
-
-    public Package() {
-
-    }
-
-    // Retirar se Client for usado
-    public Package(String client_name, String client_email, PickupPoint pickupPoint, String status, Store store, List<Long> items) {
-        this.client_name = client_name;
-        this.client_email = client_email;
-        this.pickupPoint = pickupPoint;
+    public Package() {}
+    public Package(String clientName, String clientEmail, Long pickupPointIdId, String status, Store store, List<Long> items) {
+        this.clientName = clientName;
+        this.clientEmail = clientEmail;
+        this.pickupPointId = pickupPointIdId;
         this.status = status;
         this.store = store;
         this.items = items;
     }
 
+    public String getClientEmail() {
+        return clientEmail;
+    }
+    public String getClientName() {
+        return clientName;
+    }
+    public Long getDeliveryId() {
+        return deliveryId;
+    }
     public Long getId() {
         return id;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    public List<Long> getItems() {
+        return items;
     }
-
-    public String getClient_name() {
-        return client_name;
+    public Long getPickupPointId() {
+        return pickupPointId;
     }
-
-    public void setClient_name(String client_name) {
-        this.client_name = client_name;
-    }
-
-    public String getClient_email() {
-        return client_email;
-    }
-
-    public void setClient_email(String client_email) {
-        this.client_email = client_email;
-    }
-
-    public PickupPoint getPickupPoint() {
-        return pickupPoint;
-    }
-
-    public void setPickupPoint(PickupPoint pickupPoint) {
-        this.pickupPoint = pickupPoint;
-    }
-
     public String getStatus() {
         return status;
     }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Store getStore() {
         return store;
     }
 
+    public void setClientEmail(String clientEmail) {
+        this.clientEmail = clientEmail;
+    }
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+    public void setDeliveryId(Long deliveryId) {
+        this.deliveryId = deliveryId;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public void setItems(List<Long> items) {
+        this.items = items;
+    }
+    public void setPickupPointId(Long pickupPointId) {
+        this.pickupPointId = pickupPointId;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
     public void setStore(Store store) {
         this.store = store;
     }

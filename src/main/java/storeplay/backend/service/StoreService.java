@@ -1,15 +1,14 @@
 package storeplay.backend.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import storeplay.backend.exception.ResourceNotFoundException;
-import storeplay.backend.model.Client;
-import storeplay.backend.model.Package;
-import storeplay.backend.model.Store;
-import storeplay.backend.repository.StoreRepository;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import storeplay.backend.exception.ResourceNotFoundException;
+import storeplay.backend.model.Store;
+import storeplay.backend.repository.StoreRepository;
 
 @Service
 public class StoreService {
