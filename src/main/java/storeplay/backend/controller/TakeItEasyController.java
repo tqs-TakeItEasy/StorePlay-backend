@@ -37,8 +37,8 @@ public class TakeItEasyController {
         List<PickupPointDTO> pickupPointDTOs = new ArrayList<>();
         for (int i = 0; i < pickupPoints_JSON.length(); i++) {
             JSONObject pickupPoint_JSON = (JSONObject)pickupPoints_JSON.get(i);
-            System.out.println(pickupPoint_JSON);
-            PickupPointDTO pickupPointDTO = new PickupPointDTO( (String)pickupPoint_JSON.get("name"),
+            PickupPointDTO pickupPointDTO = new PickupPointDTO( Long.valueOf(((Integer)pickupPoint_JSON.get("id")).intValue()),
+                                                                (String)pickupPoint_JSON.get("name"),
                                                                 (String)pickupPoint_JSON.get("address"),
                                                                 (String)pickupPoint_JSON.get("email"),
                                                                 (String)pickupPoint_JSON.get("status")
