@@ -1,11 +1,19 @@
 package storeplay.backend.model;
 
-import jakarta.persistence.*;
+import java.util.List;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.List;
-import java.util.Objects;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "package")
@@ -15,15 +23,19 @@ public class Package {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Client client;
+    //@ManyToOne
+    //@JoinColumn(name = "client_id")
+    //@OnDelete(action = OnDeleteAction.CASCADE)
+    //private Client client;
 
-    @ManyToOne
+    @Column(name = "client_name")
+    private String clientName;
+
+    @Column(name = "client_email")
+    private String clientEmail;
+
     @JoinColumn(name = "pickup_point_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private PickupPoint pickupPoint;
+    private Long pickupPointId;
 
     @Column(name = "status")
     private String status;
@@ -33,119 +45,72 @@ public class Package {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Store store;
 
-    @OneToMany(mappedBy = "package_item", cascade = CascadeType.ALL)
-    private List<Item> items;
+    @Column(name = "deliveryid")
+    private Long deliveryId;
 
-    @Column(name = "delivery_id")
-    private String delivery_id;
-    @Column(name = "purchase_date")
-    private String purchaseDate;
+    @Column(name = "itemslist")
+    @ElementCollection
+    private List<Long> items;
 
-    @Column(name = "delivery_date")
-    private String deliveryDate;
 
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
+    public Package() {}
+    public Package(String clientName, String clientEmail, Long pickupPointIdId, String status, Store store, List<Long> items) {
+        this.clientName = clientName;
+        this.clientEmail = clientEmail;
+        this.pickupPointId = pickupPointIdId;
+        this.status = status;
+        this.store = store;
         this.items = items;
     }
 
-    public String getDelivery_id() {
-        return delivery_id;
+    public String getClientEmail() {
+        return clientEmail;
     }
-
-    public void setDelivery_id(String delivery_id) {
-        this.delivery_id = delivery_id;
+    public String getClientName() {
+        return clientName;
     }
-
-    @Column(name = "pickup_date")
-    private String pickupDate;
-
-    public Package(List<Item> items) {
-        this.items = items;
+    public Long getDeliveryId() {
+        return deliveryId;
     }
-
-    public Package() {
-
-    }
-
     public Long getId() {
         return id;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    public List<Long> getItems() {
+        return items;
     }
-
-    public Client getClient() {
-        return client;
+    public Long getPickupPointId() {
+        return pickupPointId;
     }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public PickupPoint getPickupPoint() {
-        return pickupPoint;
-    }
-
-    public void setPickupPoint(PickupPoint pickupPoint) {
-        this.pickupPoint = pickupPoint;
-    }
-
     public String getStatus() {
         return status;
     }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Store getStore() {
         return store;
     }
 
+    public void setClientEmail(String clientEmail) {
+        this.clientEmail = clientEmail;
+    }
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+    public void setDeliveryId(Long deliveryId) {
+        this.deliveryId = deliveryId;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public void setItems(List<Long> items) {
+        this.items = items;
+    }
+    public void setPickupPointId(Long pickupPointId) {
+        this.pickupPointId = pickupPointId;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
     public void setStore(Store store) {
         this.store = store;
-    }
-
-    public String getPurchaseDate() {
-        return purchaseDate;
-    }
-
-    public void setPurchaseDate(String purchaseDate) {
-        this.purchaseDate = purchaseDate;
-    }
-
-    public String getDeliveryDate() {
-        return deliveryDate;
-    }
-
-    public void setDeliveryDate(String deliveryDate) {
-        this.deliveryDate = deliveryDate;
-    }
-
-    public String getPickupDate() {
-        return pickupDate;
-    }
-
-    public void setPickupDate(String pickupDate) {
-        this.pickupDate = pickupDate;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Package aPackage = (Package) o;
-        return id.equals(aPackage.id) && client.equals(aPackage.client) && pickupPoint.equals(aPackage.pickupPoint) && status == aPackage.status && store.equals(aPackage.store) && items.equals(aPackage.items) && delivery_id.equals(aPackage.delivery_id) && purchaseDate.equals(aPackage.purchaseDate) && deliveryDate.equals(aPackage.deliveryDate) && pickupDate.equals(aPackage.pickupDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, client, pickupPoint, status, store, items, delivery_id, purchaseDate, deliveryDate, pickupDate);
     }
 }
 
