@@ -1,19 +1,24 @@
 package storeplay.backend.dto;
 
 public class PickupPointDTO {
+    private Long id;
     private String name;
     private String address;
     private String email;
     private String status;
 
     public PickupPointDTO() {}
-    public PickupPointDTO(String name, String address, String email, String status) {
+    public PickupPointDTO(Long id, String name, String address, String email, String status) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.email = email;
         this.status = status;
     }
 
+    public Long getId() {
+        return id;
+    }
     public String getAddress() {
         return address;
     }
@@ -27,6 +32,9 @@ public class PickupPointDTO {
         return status;
     }
     
+    public void setId(Long id) {
+        this.id = id;
+    }
     public void setAddress(String address) {
         this.address = address;
     }
