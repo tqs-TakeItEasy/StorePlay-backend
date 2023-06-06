@@ -20,7 +20,7 @@ jobs:
         username: ${{ secrets.VM_USERNAME }}
         password: ${{ secrets.VM_PASSWD }}
         script: |
-          cd ~/tiebackend-runner/_work/StorePlay-backend/StorePlay-backend
+          cd ~/storebackend-runner/_work/StorePlay-backend/StorePlay-backend
           # Build and run the Docker image on the VM
           docker build -t store-backend .
           docker stop store-backend || true
