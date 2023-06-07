@@ -25,4 +25,4 @@ jobs:
           docker build -t store-backend .
           docker stop store-backend || true
           docker rm store-backend || true
-          docker run -d --name store-backend -p 8081:8080 store-backend
+          docker run -d --name store-backend -p 8081:8000 store-backend
